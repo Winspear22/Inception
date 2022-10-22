@@ -3,21 +3,27 @@ version: '3'
 services:
 #  nginx:
 #    container_name: nginx
-#    ports:
-#      - "443:443"
-#   restart: always
+#    expose:
+#      - "443"
+#    restart: always
 #    networks:
 #      - inception
 #    build: requirements/nginx/.
   mariadb:
     container_name: mariadb
-    ports:
+    expose:
       - "3306"
-    restart: always
+    restart: unless-stopped
     networks:
       - inception
-    build: ./requirements/mariadb/.
     env_file:
       - .env
+    build:  ./requirements/mariadb/.
+    #environment:
+    #  - ROOT_IN_MARIADB=${ROOT_IN_MARIADB}
+    #  - ROOT_PASSWORD_IN_MARIADB=${ROOT_PASSWORD_IN_MARIADB}
+    #  - USER_IN_MARIADB=${USER_IN_MARIADB}
+    #  - USER_PASSWORD_IN_MARIADB=${USER_PASSWORD_IN_MARIADB}
+    #  - DATABASE_IN_MARIADB=${DATABASE_IN_MARIADB}
 networks:
   inception:

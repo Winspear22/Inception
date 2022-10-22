@@ -1,5 +1,14 @@
 FROM debian:buster
 
+
+
+ARG ROOT_IN_MARIADB
+ARG ROOT_PASSWORD_IN_MARIADB
+ARG USER_IN_MARIADB
+ARG USER_PASSWORD_IN_MARIADB
+ARG DATABASE_IN_MARIADB
+
+
 RUN apt update -y
 RUN apt upgrade -y
 RUN apt-get install mariadb-server -y
