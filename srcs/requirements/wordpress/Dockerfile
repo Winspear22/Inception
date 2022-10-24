@@ -10,10 +10,10 @@ RUN apt-get install mariadb-client -y
 
 RUN wget https://fr.wordpress.org/wordpress-6.0-fr_FR.tar.gz -P /var/www
 RUN chmod 755 /var/www/wordpress-6.0-fr_FR.tar.gz
-RUN tar -xzf /var/www/wordpress-6.0-fr_FR.tar.gz
+RUN tar -xzf /var/www/wordpress-6.0-fr_FR.tar.gz -C /var/www
 RUN rm /var/www/wordpress-6.0-fr_FR.tar.gz
 
-RUN mv wordpress /var/www/
+#RUN mv wordpress /var/www/
 RUN chown -R root:root /var/www/wordpress
 
 RUN mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php 

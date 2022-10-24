@@ -9,6 +9,8 @@ services:
     networks:
       - inception
     build: requirements/nginx/.
+    #volumes:
+    #  - wordpress:/var/www/wordpress
   mariadb:
     container_name: mariadb
     expose:
@@ -19,6 +21,9 @@ services:
     env_file:
       - .env
     build:  ./requirements/mariadb/.
+    #volumes:
+    #  - mariadb:/var/lib/mysql
+
   wordpress:
     container_name: wordpress
     expose:
@@ -29,16 +34,18 @@ services:
     env_file:
       - .env
     build: ./requirements/wordpress
+    #volumes:
+    #  - wordpress:/var/www/wordpress
 networks:
   inception:
 
 volumes:
-  mariadb-volume:
+  mariadb:
     driver_opts:
       type: none
       device: /home/adaloui/data/
       o: bind
-  wp-files-volume:
+  wordpress:
     driver_opts:
       type: none
       device: /home/adaloui/data/

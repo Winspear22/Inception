@@ -16,5 +16,6 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY '1qaz2wsx';*/
 CREATE DATABASE IF NOT EXISTS wordpress;
 CREATE USER IF NOT EXISTS 'adaloui'@'%' IDENTIFIED BY 'popo';
 GRANT ALL PRIVILEGES ON wordpress.* TO 'adaloui'@'%';
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'rootpopo';
 FLUSH PRIVILEGES;
-/*ALTER USER 'root'@'localhost' IDENTIFIED BY 'rootpopo';*/
+
