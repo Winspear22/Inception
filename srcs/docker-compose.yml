@@ -9,8 +9,11 @@ services:
     networks:
       - inception
     build: requirements/nginx/.
-    #volumes:
-    #  - wordpress:/var/www/wordpress
+    volumes:
+      - wordpress:/var/www/html/
+    depends_on:
+      - wordpress
+
   mariadb:
     container_name: mariadb
     expose:
@@ -21,8 +24,8 @@ services:
     env_file:
       - .env
     build:  ./requirements/mariadb/.
-    #volumes:
-    #  - mariadb:/var/lib/mysql
+    volumes:
+      - mariadb:/var/lib/mysql
 
   wordpress:
     container_name: wordpress
@@ -34,8 +37,10 @@ services:
     env_file:
       - .env
     build: ./requirements/wordpress
-    #volumes:
-    #  - wordpress:/var/www/wordpress
+    volumes:
+      - wordpress:/var/www/html/
+    depends_on:
+      - mariadb
 networks:
   inception:
 
