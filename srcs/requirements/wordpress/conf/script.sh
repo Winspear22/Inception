@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # JE LAISSE LE TEMPS A MYSQL DE SE LANCER
 sleep 10
 
@@ -17,7 +16,7 @@ fi
 # JE SUPPRIME LE FICHIER EXEMPLE, CAR WORDPRESS CONFOND LE NOTRE ET L'EXEMPLE
 rm -Rf wp-config-sample.php
 # CONFIGURATION AUTMATIQUE DU SITE
-wp core install --allow-root --url=https:/adaloui.42.fr --title="Inception" --admin_user=adaloui --admin_password=popo --admin_email=adaloui@student.42.fr
+wp core install --allow-root --url=https://adaloui.42.fr --title="Inception" --admin_user=adaloui --admin_password=popo --admin_email=adaloui@student.42.fr
 # CREATION DE NOTRE DEUXIEME UTILISATEUR CAR C'EST DEMANDE DANS LE SUJET
 wp user create --allow-root user user@user.42.fr --role=author --user_pass=user
 # J'INSTALLE MON THEME : J'AI CHOISU LE TWENTYSEVENTEEN
