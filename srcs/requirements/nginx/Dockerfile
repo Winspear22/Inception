@@ -27,8 +27,6 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 # Je m'assure de l'accès au dossier où le site sera contenu
 RUN chmod 755 /var/www/html 
 RUN chown -R www-data:www-data /var/www/html
-
 # La connexion se fait sur le port 443
 EXPOSE 443
-
 CMD [ "nginx", "-g", "daemon off;" ]

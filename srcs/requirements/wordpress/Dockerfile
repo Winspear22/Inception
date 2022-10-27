@@ -1,40 +1,37 @@
 FROM debian:buster
 
-RUN apt-get update -y
-RUN apt-get upgrade -y
-RUN apt-get install wget -y
-RUN apt-get install php7.3 -y
-RUN	apt-get install php-fpm -y
-RUN apt-get install php-mysql -y
-RUN apt-get install mariadb-client -y
+# Wordpress est un systeme de gestion ecrit en PHP
 
-RUN wget https://fr.wordpress.org/wordpress-6.0-fr_FR.tar.gz -P /var/www
-RUN chmod 755 /var/www/wordpress-6.0-fr_FR.tar.gz
-RUN tar -xzf /var/www/wordpress-6.0-fr_FR.tar.gz -C /var/www/html
-RUN rm /var/www/wordpress-6.0-fr_FR.tar.gz
+# ETAPE 1 :
+# - Installation des outils wget pour installer wordpress
+# - Installation de PHP-FPM et toutes ses dependances
 
-#RUN mv wordpress /var/www/
-#RUN chown -R root:root /var/www/wordpress
-RUN mkdir -p /var/www/html/wordpress-files/
-RUN chmod 777 /var/www/html
-RUN chown -R www-data:www-data /var/www/html/
+RUN apt-get update -y && apt-get upgrade -y \
+&& apt-get install -y wget \
+&& apt-get install -y php7.3 php7.3-fpm php-cli php-common php7.3-mbstring php-xmlrpc php-soap php-intl php-mysql php-ldap php-zip php-curl php-opcache php-readline php-xml php-gd \
+&& apt-get install -y mariadb-client \
+&& rm /etc/php/7.3/fpm/pool.d/www.conf
 
-# PAS SUR POUR CELLE LA
-RUN mv /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php 
-#COPY conf/wp-config.php /var/www/wordpress/wp-config.php
+# ETAPE 2 :
+# - Importer les fichier de configuration et le script entrypoint.sh depuis notre machine host vers notre conteneur
 
-COPY conf/wp-config.php /var/www/html/wordpress/wp-config.php
-COPY conf/wp-config.php .
+COPY ./conf/script.sh ./
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
-COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
-COPY conf/script.sh .
+RUN chmod +x ./script.sh
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
-#Il trouve pas le wp-config dans le var/www/wordpress, on le met dans le fichier de la racine
-#RUN mv /var/www/wordpress/wp-config.php .
-EXPOSE 9000
-CMD ["sh", "script.sh"]
 
-#RUN sleep 100000
+#COPY conf/wp-config.php /var/www/html/wordpress
+#RUN wp core download --allow-root --locale=fr_FR 
+
+#RUN wp config create --allow-root --dbname=wordpress --dbuser=adaloui --dbpass=popo --dbhost=mariadb:3306 --path='/var/www/html/wordpress' 
+
+EXPOSE 9000
+
+# ETAPE 3 :
+# - Lancer le script bash entrypoint.sh à l'interieur du conteneur (installation de wordpress)
+
+ENTRYPOINT ["./script.sh"]
