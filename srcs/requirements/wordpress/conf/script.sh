@@ -52,7 +52,7 @@ wp user create --allow-root ${WORDPRESS_USER_2} ${WORDPRESS_USER_2_EMAIL} --role
 # ETAPE 6 :
 # Personnalisation
 
-wp theme install wpkites --activate --allow-root
+wp theme install twentyseventeen --activate --allow-root
 #wp post delete 1 --allow-root
 wp cache flush --allow-root
 
