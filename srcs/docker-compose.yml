@@ -23,9 +23,15 @@ services:
       - inception
     env_file:
       - .env
-    build:  ./requirements/mariadb/.
-    #volumes:
-    #  - mariadb:/var/lib/mysql
+    build:
+      context: ./requirements/mariadb
+      args:
+        MARIADB_DATABASE: ${MARIADB_DATABASE}
+        MARIADB_USER: ${MARIADB_USER}
+        MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+        MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    volumes:
+      - mariadb:/var/lib/mysql
 
   wordpress:
     container_name: wordpress
