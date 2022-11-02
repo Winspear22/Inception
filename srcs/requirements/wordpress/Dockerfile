@@ -1,28 +1,36 @@
 FROM debian:buster
 
-# Wordpress est un systeme de gestion ecrit en PHP
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get install wget -y
+RUN apt-get install php7.3 -y
+RUN	apt-get install php-fpm -y 
+RUN	apt-get install php-cli -y
+RUN	apt-get install php-common -y
+RUN	apt-get install php7.3-mbstring -y
+RUN	apt-get install php-xmlrpc -y
+RUN	apt-get install php-soap -y
+RUN	apt-get install php-intl -y
+RUN	apt-get install php-mysql -y
+RUN	apt-get install php-ldap -y
+RUN	apt-get install php-zip -y
+RUN	apt-get install php-curl -y
+RUN	apt-get install php-opcache -y 
+RUN	apt-get install php-readline -y
+RUN	apt-get install php-xml -y
+RUN	apt-get install php-gd -y
+RUN apt-get install php-mysql -y
+RUN apt-get install mariadb-client -y
+RUN rm /etc/php/7.3/fpm/pool.d/www.conf
 
-# ETAPE 1 :
-# - Installation des outils wget pour installer wordpress
-# - Installation de PHP-FPM et toutes ses dependances
-
-RUN apt-get update -y && apt-get upgrade -y \
-&& apt-get install -y wget \
-&& apt-get install -y php7.3 php7.3-fpm php-cli php-common php7.3-mbstring php-xmlrpc php-soap php-intl php-mysql php-ldap php-zip php-curl php-opcache php-readline php-xml php-gd \
-&& apt-get install -y mariadb-client \
-&& rm /etc/php/7.3/fpm/pool.d/www.conf
-
-# ETAPE 2 :
-# - Importer les fichier de configuration et le script entrypoint.sh depuis notre machine host vers notre conteneur
-
-COPY ./conf/script.sh ./
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY ./conf/script.sh ./
+RUN chmod 755 ./script.sh
 
-RUN chmod +x ./script.sh
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod 755 wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
 
 EXPOSE 9000
 
-# ETAPE 3 :
-# - Lancer le script bash entrypoint.sh à l'interieur du conteneur (installation de wordpress)
-
-ENTRYPOINT ["./script.sh"]
+CMD ["./script.sh"]
