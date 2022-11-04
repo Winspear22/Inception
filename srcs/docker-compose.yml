@@ -26,10 +26,10 @@ services:
     build:
       context: ./requirements/mariadb
       args:
-        MARIADB_DATABASE: ${MARIADB_DATABASE}
-        MARIADB_USER: ${MARIADB_USER}
-        MARIADB_PASSWORD: ${MARIADB_PASSWORD}
-        MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+        MDB_DATABASE: ${MDB_DATABASE}
+        MDB_ADMIN: ${MDB_ADMIN}
+        MDB_MDP: ${MDB_MDP}
+        MDB_ROOT_MDP: ${MDB_ROOT_MDP}
     volumes:
       - mariadb:/var/lib/mysql
 

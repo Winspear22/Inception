@@ -9,10 +9,13 @@ up :
 down :
 	cd srcs && sudo docker-compose -f docker-compose.yml down
 
-clean:	
+clean: cd srcs && sudo docker-compose -f docker-compose.yml down \
+	&& sudo docker system prune -a --force
+
+clean-all:	
 	cd srcs && sudo docker-compose -f docker-compose.yml down \
 	&& sudo docker system prune -a --force \
-	&& sudo docker volume rm srcs_mariadb-volume srcs_wp-files-volume
+	&& sudo docker volume rm srcs_mariadb srcs_wp-files
 
 re:	clean up
 
