@@ -11,6 +11,7 @@ services:
     build: requirements/nginx/.
     volumes:
       - wordpress:/var/www/html
+      - site:/var/www/html
     depends_on:
       - wordpress
 
@@ -47,6 +48,20 @@ services:
       - wordpress:/var/www/html
     depends_on:
       - mariadb
+
+  site:
+    container_name: site
+    build: requirements/bonus/static-site
+    restart: always
+    networks:
+      - inception
+    depends_on:
+      - nginx
+    volumes:
+      - site:/var/www/html
+    ports:
+      - "150:150"
+  
 networks:
   inception:
 
@@ -57,6 +72,11 @@ volumes:
       device: /home/adaloui/data/
       o: bind
   wordpress:
+    driver_opts:
+      type: none
+      device: /home/adaloui/data/
+      o: bind
+  site:
     driver_opts:
       type: none
       device: /home/adaloui/data/

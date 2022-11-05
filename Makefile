@@ -9,13 +9,14 @@ up :
 down :
 	cd srcs && sudo docker-compose -f docker-compose.yml down
 
-clean: cd srcs && sudo docker-compose -f docker-compose.yml down \
-	&& sudo docker system prune -a --force
+clean: 
+	cd srcs && sudo docker-compose -f docker-compose.yml down \
+	&& sudo docker system prune --force
 
 clean-all:	
 	cd srcs && sudo docker-compose -f docker-compose.yml down \
 	&& sudo docker system prune -a --force \
-	&& sudo docker volume rm srcs_mariadb srcs_wp-files
+	&& sudo rm -Rf /home/adaloui/data/*
 
 re:	clean up
 
@@ -30,6 +31,9 @@ mariadb:
 
 wordpress:
 	sudo docker exec -it wordpress bash -l
+
+site:
+	sudo docker exec -it site bash -l
 
 config:
 	cd srcs && sudo docker-compose config
@@ -48,7 +52,9 @@ up_mariadb:
 	cd srcs && sudo docker-compose up --build mariadb
 up_wordpress:
 	cd srcs && sudo docker-compose up --build wordpress
+up_site:
+	cd srcs && sudo docker-compose up --build site
 
-
-.PHONY: up down re clean show nginx mariadb wordpress config delete volume_show volume_delete \
-up_nginx up_mariadb up_wordpress
+.PHONY: up down re clean clean-all show nginx mariadb wordpress config \
+delete volume_show volume_delete \
+up_nginx up_mariadb up_wordpress up_site 
