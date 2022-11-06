@@ -11,7 +11,6 @@ services:
     build: requirements/nginx/.
     volumes:
       - wordpress:/var/www/html
-    #  - site:/var/www/html
     depends_on:
       - wordpress
 
@@ -57,8 +56,6 @@ services:
       - inception
     depends_on:
       - nginx
-    #volumes:
-    #  - site:/var/www/html
     ports:
       - "150:150"
   
@@ -76,8 +73,3 @@ volumes:
       type: none
       device: /home/adaloui/data/
       o: bind
-  #site:
-  #  driver_opts:
-  #    type: none
-  #    device: /home/adaloui/data/
-  #    o: bind

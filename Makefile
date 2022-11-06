@@ -38,7 +38,7 @@ site:
 config:
 	cd srcs && sudo docker-compose config
 delete:
-	cd srcs && sudo docker-compose down --remove-orphans --volumes && sudo docker system prune --force
+	cd srcs && sudo docker-compose down --remove-orphans && sudo docker system prune --force
 
 volume_show:
 	cd /home/adaloui/data && sudo ls -l **
